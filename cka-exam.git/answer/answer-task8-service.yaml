@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: task8-service
+spec:
+  selector:
+    app: task8-pod
+  ports:
+  - protocol: TCP
+    port: 989
+    nodePort: 31111
+  type: NodePort

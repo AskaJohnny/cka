@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task13-pod
+  namespace: task13-namespace
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest

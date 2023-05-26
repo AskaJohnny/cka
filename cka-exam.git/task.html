@@ -1,0 +1,494 @@
+
+<html>
+    <head>
+        <script type="text/javascript" src="jquery-min.js"></script>
+        <script type="text/javascript" src="bootstrap.js"></script>
+        <link href="bootstrap.min.css" rel="stylesheet"/>
+        <script type="text/javascript" src="tether.js"></script>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript">
+            $(function() {
+                $('.btn_hide_hint').click(function(){
+                    $('.task-hint').fadeOut('slow')
+                });
+                $('.btn_show_hint').click(function(){
+                    $('.task-hint').fadeIn('slow')
+                });
+            });
+        </script>
+    </head>
+    <body>
+
+
+        <div style="margin-left:20px;margin-right:20px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">考前须知</div>
+                <div class="panel-body">
+                    During the exam there will be few kubernetes cluster for you to swith in order to complete the task. So be aware of beginning of the task it will tell you which cluster you should use. <br/>1. For example you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>2. you can log into cluster node by command <strong style="color: red;font-style: italic;cursor: hand">$ ssh trystack@nodename</strong> with password <strong style="color: red;font-style: italic;cursor: hand">trystack</strong>. Also you can get root permisson with command <strong style="color: red;font-style: italic;cursor: hand">sudo -s</strong> with password <strong style="color: red;font-style: italic;cursor: hand">trystack</strong>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">提示控制</div>
+                <div class="panel-body">
+                    <input class="btn_hide_hint" type="button" value="隐藏提示">
+                    <input class="btn_show_hint" type="button" value="显示提示">
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 0</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Find out log of pod <strong style="color: red;font-style: italic;cursor: hand">task0-pod-log</strong> with keyword <strong style="color: red;font-style: italic;cursor: hand">file not found</strong> and save to file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task0-error-log.txt</strong>
+                    <br/>
+                    
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    通过kubectl logs [pod]来查看日志，所以这题很简单kubectl logs task0-pod-log | grep -i "file not found" > [题目要求的写入的文件]
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 1</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Please list the PVs and sort it with field <strong style="color: red;font-style: italic;cursor: hand">[CAPACITY]</strong> with kubectl command then save the result into file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task01-pvlist.txt</strong> do not modify the format of comand output  just save the output into that file.
+                     <br/>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    首先我们要知道排序的那个参数是--sort-by=[字段]，然后我们需要知道capacity字段是在哪个属性下的字段，我们可以通过kubectl get pv [pvname] -o yaml来查看capacity是属于哪个属性的，然后可以得出kubectl get pv --sort-by="spec.capacity.storage" > [题目要求的写入的文件]
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 2</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. There is a pod by the name of <strong style="color: red;font-style: italic;cursor: hand">task2-pod-pending</strong> and the pod will not run because missing file  <strong style="color: red;font-style: italic;cursor: hand">/workingdir/iwantu.txt</strong>. Once it detect the file it will run nomally. Add an init container to the yaml template in order to create the file . You will be able to find the yaml template of the Pod in this location <strong style="color: red;font-style: italic;cursor: hand">/opt/templates/task2-pod-need-fix.yaml</strong>.
+                    <br/>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">init container</strong>, 然后将initContainer那段开始复制到/opt/templates/task2-pod-need-fix.yaml中就可以了。
+                </div>
+            </div>
+             <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 3</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a Secrets with name <strong style="color: red;font-style: italic;cursor: hand">mysecret</strong> and set <strong style="color: red;font-style: italic;cursor: hand">username</strong> to <strong style="color: red;font-style: italic;cursor: hand">trystack</strong> and set <strong style="color: red;font-style: italic;cursor: hand"> password </strong> to <strong style="color: red;font-style: italic;cursor: hand">cka123</strong><br/>
+                    
+                    3. Create a Pod with name  <strong style="color: red;font-style: italic;cursor: hand">task3-pod-sec-volume</strong> with image <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong> and mount <strong style="color: red;font-style: italic;cursor: hand">mysecret</strong> as a volume with name  <strong style="color: red;font-style: italic;cursor: hand">vol</strong> and mapping to Pod`s fold <strong style="color: red;font-style: italic;cursor: hand">/etc/mySecretsFolder</strong>
+                    <br/>
+                    4. Create a Pod with name  <strong style="color: red;font-style: italic;cursor: hand">task3-pod-sec-env</strong> with image <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong> and mount <strong style="color: red;font-style: italic;cursor: hand">mysecret`s key password </strong> as a environment variable with name <strong style="color: red;font-style: italic;cursor: hand">PASSWORD</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">secret</strong>,其次我们首先要创建一个Secrets使用命令kubectl create secret generic mysecret --from-literal=username=trystack --from-literal=password=cka123<strong style="color: green;font-style: italic;cursor: hand">(建议看命令行帮助)</strong><br/>
+                    3. 参照文档 “Using Secrets as Files from a Pod” 的定义文件来写一个pod的yaml注意名称要和题目要求的是一样的。<br/>
+                    4. 参照文档 “Using Secrets as Environment Variables” 的定义文件来写一个pod的yaml注意名称要和题目要求的是一样，然后env属性下的 - name: 写PASSWORD，然后secretKeyRef下面的name写mysecret，key写password
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 4</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a PV with name <strong style="color: red;font-style: italic;cursor: hand">mypv01</strong> please use <strong style="color: red;font-style: italic;cursor: hand">hostpath</strong> with local path <strong style="color: red;font-style: italic;cursor: hand">/tmp/task4temp</strong> as the backend of the PV then set the capacity to <strong style="color: red;font-style: italic;cursor: hand">20Gi</strong>, set <strong style="color: red;font-style: italic;cursor: hand">accessModes</strong> to <strong style="color: red;font-style: italic;cursor: hand">ReadWriteOnce</strong>, set <strong style="color: red;font-style: italic;cursor: hand">storageClassName</strong> to <strong style="color: red;font-style: italic;cursor: hand">slow-storage</strong><br/>
+
+                    
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">hostpath</strong>,其次我们要参考文档"Create a PersistentVolume"创建一个pvc的yaml<br/>
+
+                </div>
+            </div>
+             <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 5</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Find out the Total number of Node that doest not have Taint with NoScheduler then write to file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task5answer.txt</strong> 
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">taint</strong>首先要知道如何查询一个Node的Taint标签，可以通过kubectl describe node [node_name],看下Taint有没有NoScheduler的，没有的就是我们需要计数的，计数完成后，我们把总数写入/opt/answers文件<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 6</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. There is a deploy with name <strong style="color: red;font-style: italic;cursor: hand">task-6-deploy</strong>.
+                     Update the image to <strong style="color: red;font-style: italic;cursor: hand">nginx:1.9.0</strong> and <strong style="color: red;font-style: italic;cursor: hand">ensure to record the action</strong>, then use rollout function to roll back to the revision with image  <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 你在创建或修改deployment的时候在命令后面加上--record会记录这次操作到rollout history当中，以便于我们修改出问题的时候可以回滚到早期的版本中。这题其实很好解，kubectl edit deploy task-6-deploy --record<strong style="color: green;font-style: italic;cursor: hand">(建议看命令行帮助)</strong> 然后把image: 改成nginx:1.9.0,然后用kubectl rollout history deploy task-6-deploy查看一下，然后用kubectl rollout undo deployment task-6-deploy --to-revision=1<strong style="color: green;font-style: italic;cursor: hand">(建议看命令行帮助)</strong><br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 7</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a DaemonSet and set name to <strong style="color: red;font-style: italic;cursor: hand">task-7-ds</strong> is running on each node in the cluster,set DaemonSet label to <strong style="color: red;font-style: italic;cursor: hand">my-ds=task-7-ds</strong> and pod should match label <strong style="color: red;font-style: italic;cursor: hand">nginx=task-7-ds</strong> and set image to <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong>.
+                    <strong style="color: red;font-style: italic;cursor: hand"> It should repect node taints </strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">DaemonSet</strong>，其次我们要了解到DS创建的Pod的名称构造是[DaemonSet.metadata.name]-[5位随机字符]，所以这一题的关键就是根据文档创建一个DaemonSet的yaml，把metadata.name设为题目要求的名称task-7-ds，然后把metadata.label设成my-ds: task-7-ds,然后把spec.selector.matchLabels设成nginx: task-7-ds,然后再把然后把spec.template.metadata.labels设成nginx: task-7-ds<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 8</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a service called <strong style="color: red;font-style: italic;cursor: hand">task8-service</strong> and use pod <strong style="color: red;font-style: italic;cursor: hand">task8-pod</strong> as it`s backend,set cluster ip port to <strong style="color: red;font-style: italic;cursor: hand">989</strong>,set node port to <strong style="color: red;font-style: italic;cursor: hand">31111</strong> set <strong style="color: red;font-style: italic;cursor: hand">type</strong> to <strong style="color: red;font-style: italic;cursor: hand"> NodePort</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">service</strong>，首先查看这个pod的label通过命令kubectl get pod --show-labels,然后我们参考文档写一个service的yaml文件，注意把spec.selector设为app: MyApp，然后把MyApp，然后把ports.port设为989(cluster ip port),把ports.targetport设为80(容器的端口)，再把MyApp，然后把ports.NodePort设为31111,最后把metadata.name设为task8-service,然后把type设置成type=NodePort<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 9</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Find out the pod which use most cpu in the namespace <strong style="color: red;font-style: italic;cursor: hand">kube-system</strong> with label <strong style="color: red;font-style: italic;cursor: hand">mesureable=true</strong> then write it`s name to the file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task9_answer.txt</strong> the format should be one pod`s name per line
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 首先你需要知道可以通过heapster或者prometheus来监控pod的用量，一旦部署安装了他们，你就可以使用kubectl top pod -n kube-system -l mesureable=true来查看到结果，然后把结果写入/opt/answers/task9_answer.txt<br/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 10</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a Pod called <strong style="color: red;font-style: italic;cursor: hand">task10-pod</strong> which contain following container with images <strong style="color: red;font-style: italic;cursor: hand">postgres:9.4+nginx:latest</strong> each.
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">pod</strong>
+                    2. 这题的意思是让我们创建一个Pod在这个Pod中，我们要有2个容器，分别用镜像postgres:9.4和nginx:latest，所以我们只需要根据Pod的文档创建一个Pod里面定义2个container分别使用postgres:9.4和nginx:latest镜像<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 11</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a Pod called <strong style="color: red;font-style: italic;cursor: hand">task11-pod</strong>  with images <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong> ensure it runs on node <strong style="color: red;font-style: italic;cursor: hand">k8smaster</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 这题的意思是让我们创建一个Pod并且运行在节点k8smaster上，这里的知识点是要大家知道Node Selector,我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">nodeselector</strong>,node selector的工作机制是依赖于label的，所以我们要先查询k8smaster这台节点的label通过命令 kubectl get node --show-labels,然后写一个Pod定义文件，然后使用之前查到的label<br/>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 12</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong><br/>
+                    
+                    2. Create a Deplyment called <strong style="color: red;font-style: italic;cursor: hand">task12-deployment</strong>  within a pod use image  <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong> and <strong style="color: red;font-style: italic;cursor: hand">set replicas to 2 </strong> and expose it use <strong style="color: red;font-style: italic;cursor: hand">NodePort</strong> with service name <strong style="color: red;font-style: italic;cursor: hand">task12-service</strong> and set clusterip port to <strong style="color: red;font-style: italic;cursor: hand">80</strong>. <br/>
+                    3. Find out it`s DNS record of the service <strong style="color: red;font-style: italic;cursor: hand">task12-service</strong> and write the output of command nslookup to file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task12_answers_service_dns.txt</strong><br/>
+                     4. Find out it`s DNS record of the pod and write the output of command nslookup to file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task12_answers_pod_dns.txt</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    <strong style="color: green;font-style: italic;cursor: hand">在做这一题的时候请先用kubectl get nodes来找到master节点，然后用ssh命令登录进去做</strong>，然后这题有2个考点第一个是创建一个deploy然后里面有一个Pod并且使用nginx:latest作为镜像，这一步我们可以通过命令kubectl create deploy --image=nginx:latest task12-deployment --replicas=2,然后是发布这个服务用命令行kubectl expose deployment task12-deployment --port=80 --type=NodePort --name=task12-service ，第二个我们需要通过反向解析来查到这个服务的域名，首先我们要知道这个服务的cluster ip，通过命令行kubectl get svc我们可以得到cluster ip，然后我们需要知道dns服务器的地址方法可以通过kubectl exec -it task12-deployment-[id] /bin/bash登录到容器里，然后运行cat /etc/resolv.conf来查看dns服务器的地址，有了地址以后我们就可以方向解析了利用 dig -x [cluster ip] @[dns sever ip] +short可以得到域名，最后运行nslookup [上面查出来的域名] [dns地址]最终把结果写入到/opt/answers/task12_answers_service_dns.txt完美！！！！,其实我们也可以通过dns命名规则来查询dns record，[servicename].[namespace].svc.[cluster domain]最后的cluster domain可以通过查询kubelet服务的systemd来查到，pod的命名规则是[podip].[namespace].pod.[cluster domain]我之前已经通过方向解析得到了service的地址，接下去pod就很容易了我们根据刚才的规则可以得出pod的dns记录，在用nslook [podip].[namespace].pod.[cluster domain] [dns地址]可以得出pod的dns记录然后写入/opt/answers/task12_answers_pod_dns.txt,我们可以查询文档 CONCEPTS -> Services, Load Balancing, and Networking -> DNS for Services and Pods   <strong style="color: green;font-style: italic;cursor: hand">考试的时候不需要2份复制所以可以缺省--replicas参数</strong><br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 13</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Create a Namespace called <strong style="color: red;font-style: italic;cursor: hand">task13-namespace</strong>  <br/>
+                    3. Create a Pod called <strong style="color: red;font-style: italic;cursor: hand">task13-pod</strong> with images <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong> in the namespace <strong style="color: red;font-style: italic;cursor: hand">task13-namespace</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 这一题比较加单，首先创建一个namespace，我们用kubectl create ns task13-namespace,然后定一个pod的yaml文件用nginx:latest做镜像，把名字取为task13-pod   <br/>
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 14(过时)</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Use kubelete systemd-service to run a static pod with name <strong style="color: red;font-style: italic;cursor: hand">task14-pod</strong> use image <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong>
+                    <br/>
+                    Hint: the static pod folder location /etc/kubernetes/manifests
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">static pod</strong>
+                    2. <strong style="color: green;font-style: italic;cursor: hand">在做这一题的时候请先用kubectl get nodes来找到master节点，然后用ssh命令登录进去做</strong>,这一题的解题思路首先要知道kubelet是负责运行这些k8s依赖的组件的Pod的服务进程，kubelete是通过读取一个配置的值来确定静态Pod的定义文件的路径的，这个配置我们可以通过命令systemctl cat kubelet.service | grep -i "pod-manifest-path"来得到，如果没有说明kubelete服务启动时没有定义--pod-manifest-path参数，首先切换到root用户sudo -i(sudo -s),这时我们需要使用systemctl cat kubelete.service来查看定义文件在那个路径下，<strong style="color: green;font-style: italic;cursor: hand">显示在这个命令行输出中一般有2个文件地址第一个是静态systemd定义文件，中间还有一个地址是system drop in附加的我们要找的就是这个附加的地址，然后我们vim[systemd配置文件附加文件路径],然后加上--pod-manifest-path=/etc/kubernetes/manifests</strong>，然后运行命令systemctl daemon-reload然后重启kubelete服务，然后到这个目录下去定义一个Pod的定义文件用名字task14-pod，镜像用nginx:latest，然后请用kubectl get pod来检查，确保[节点]+[pod的名称]这个pod的状态时运行的。<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 15</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Taint the node <strong style="color: red;font-style: italic;cursor: hand">k8smaster</strong>, <strong style="font-style: italic;cursor: hand">ensure no more pod will be scheduler to it(except pods that tolerate the taint) and evicted all the pod with out tolerate the taint</strong> . 
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 这题我们要知道是Taint一个节点用NoScheduler，使得没有toleration的pod无法调度到一个节点上,Taint一个节点用NoExcute,使得没有toleration的pod会被强制驱逐(evicte),我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">taint</strong>，来查看如何taint一个节点，我们首先使用kubectl taint nodes k8smaster myns=ns:NoSchedule来确保不会有新的Pod调度到这个几点上，然后用kubectl taint nodes k8smaster myne=ne:NoExcute来确保驱逐没有toleration的Pod<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+                </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 16</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Backup ectd database file for the cluster. Save the backup file to <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task16_db_backup</strong>. Following is the information you need in order to backup the database:<br/>
+                    Etcdctl tools: <strong style="color: red;font-style: italic;cursor: hand">/home/trystack/etcd-v3.3.5-linux-amd64/etcdctl</strong><br/>
+                    Etcd endpoint:  <strong style="color: red;font-style: italic;cursor: hand">127.0.0.1:2379</strong><br/>
+                    CA Certification file: <strong style="color: red;font-style: italic;cursor: hand">/etc/kubernetes/pki/etcd/ca.crt</strong><br/>
+                    Client Certification file: <strong style="color: red;font-style: italic;cursor: hand">/etc/kubernetes/pki/etcd/healthcheck-client.crt</strong><br/>
+                    Client key file: <strong style="color: red;font-style: italic;cursor: hand">/etc/kubernetes/pki/etcd/healthcheck-client.key</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 解题思路是，要使用etcdctl工具来备份数据库，但是只有3版本的etcdctl工具才会有备份(快照功能)，首先使用这些ca文件需要root的权限所以我们要切换到root用户sudo -i(sudo -s),然后我们要运行export ETCDCTL_API=3（可以从etcdctl --help里看到提示）,然后进入etcdctl工具的目录 cd /home/trystack/etcd-v3.3.5-linux-amd64/,最后运行快照命令./etcdctl --endpoints=127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key snapshot save /opt/answers/task16_db_backup <strong style="color: green;font-style: italic;cursor: hand">（考试的时候是不需要cd到这个目录里的，因为考试的时候这个工具是安装在bin目录下的可以直接运行 etcdctl.....）</strong><br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 17</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. There is a node called <strong style="color: red;font-style: italic;cursor: hand">xxxx</strong>which status is notReady find out the cause and make it work. You can login the server with user <strong style="color: red;font-style: italic;cursor: hand">trystack</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 这题无法模拟因为资源有限，同学们根据kubectl get nodes会发现那个节点的状态是Not Ready，同学们可以登录到这台节点上用 ssh trystack@xxxx,然后进去后查看kubelet的状态sudo -i,systemctl status kubelet然后你会发现这个kubelet没有启动，只需要启动他就好了systemctl start kubelet，然后大功告成<br/>
+
+                </div>
+            </div>
+             <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 18</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. In the namespace <strong style="font-style: italic;cursor: hand">task18-ns</strong> Find out all the pod associate with service <strong style="color: red;font-style: italic;cursor: hand">task18-service</strong> then write the pod`s name into file <strong style="color: red;font-style: italic;cursor: hand">/opt/answers/task18_pods_name</strong>. <br/><strong style="font-style: italic;">The format should be one pod`s name per line</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    2. 这题只要知道task18-service的服务的选择的label，我们应该先运行kubectl get svc task18-service -o yaml找到selector属性下的内容比如app: aaa,这样再查询kubectl get pod -l app=aaa就可以得到所有和这个service关联的pod了<br/>
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 19</div>
+                <div class="panel-body">
+                   1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                   2. Please scale deployment <strong style="color: red;font-style: italic;cursor: hand">task-6-deploy</strong> to <strong style="color: red;font-style: italic;cursor: hand">4 replicas</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>这题很简单扩展deployment的复制数量可以简单的使用kubectl scale task-6-deploy --replicas=4即可</strong>
+                    <br/>
+                   Pending
+
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 20</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. There is node called xxx which is not working find out the failure and bring up the service.
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>好吧，给大家作弊一下，这个master节点上的，controller manager的systemd服务没有启动，只要用systemctl start kube-controller-manager启动即可</strong>
+                    <br/>
+                   Pending
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/> 任务 21</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Use emptyDir as a pod cache volume and create a called <strong style="color: red;font-style: italic;cursor: hand">task21-cache-pod</strong> within this cahce volume mount to <strong style="color: red;font-style: italic;cursor: hand">/tmp/cache-volume</strong> and use image <strong style="color: red;font-style: italic;cursor: hand">nginx:latest</strong>.
+                </div>
+                <div class="panel-body task-hint">
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">emptydir</strong>
+                    <strong>找到empty dir的文档然后拷贝过来mountpoint和名称即可</strong>
+                    <br/>
+                   Pending
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/>任务 22</div>
+                <div class="panel-body">
+                    1. you can switch to cluster <strong style="font-style: italic;cursor: hand">kubernetes-admin@kubernetes</strong> with command <strong style="color: red;font-style: italic;cursor: hand">$ kubectl config use-context kubernetes-admin@kubernetes</strong>.<br/>
+                    2. Create a cluster role and grant permisson for <strong style="color: red;font-style: italic;cursor: hand">list</strong> and <strong style="color: red;font-style: italic;cursor: hand">watch</strong> api object <strong style="color: red;font-style: italic;cursor: hand">secrets</strong>.
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    <p>
+                        需要定义一个 cluster role 然后赋予只能访问 secret 的 list 和 watch 的权限
+                    </p>
+
+                    <strong>文档查找</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">RBAC</strong>
+                    <strong>在页面里查找 secret 把例子抄下来,然后执行</strong>
+                    <br/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/>任务 23(无法模拟因为给到大家的已经是最新的版本了)</div>
+                <div class="panel-body">
+                    1. Upgrade current cluster to newest version
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    <p>
+                        更新多节点的集群,我们需要一个一个节点来操作,首先我们要更新所有节点上 kubeadm kubelet二进制文件版本的,根据操作系统运行 Update 命令,
+                        然后我们需要获取可以更新的版本,在更新过 kubeadm 二进制文件的 master 上运行 kubeadm upgrade plan 这个命令会打印可以升级的版本,
+                        在输出的最后你会看见类似 now you can run: kubeadm upgrade apply vx.xx.x 记住 vx.xx.x
+                        然后应该更新 master ,首先我们更新他的依赖更新之前我们需要让节点进入不可用状态并驱散上面的非 static pod,所有我们通过命令在 master 依次执行 
+                        1. kubectl drain [master 名称] --ignore-daemonsets 2. kubeadm upgrade apply vvx.xx.x kubectl uncordon [master 名称],
+                        然后再操作工作节点 1. kubectl drain [工作节点的名称] --ignore-daemonsets 2. kubeadm upgrade node 3. kubectl uncordon [master 名称]
+                    </p>
+
+                    <strong>文档查找</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">kubeadm upgrade</strong>
+                    <strong>在页面里跟着文档走即可</strong>
+                    <br/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/>任务 24(无法模拟因为没有外接存储)</div>
+                <div class="panel-body">
+                    1. Please resizing pvc <strong style="color: red;font-style: italic;cursor: hand">task-24-pvc</strong> to <strong style="color: red;font-style: italic;cursor: hand">20Gi</strong>
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    <p>
+                        所有 pvc 和 storage claas 对象自动匹配并绑定的都可以进行自动扩容,但不能缩容,直接使用 kubectl edit pvc task-24-pvc 并调整 pvc 中的 requests.storage 字段
+                    </p>
+
+                    <strong>文档查找</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">resizing persistent volumes</strong>
+                    <strong>在页面里跟着文档走即可</strong>
+                    <br/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><input type="checkbox"/>任务 25</div>
+                <div class="panel-body">
+                    1. Create a network policy that apply following <strong style="color: red;font-style: italic;cursor: hand">ingress</strong> rules:
+                    <p style="margin-left: 15px;">
+                        a. Name: <strong style="color: red;font-style: italic;cursor: hand">task-25-nwp</strong><br/>
+                        b. Ensure all pod`s port 80 in namespace <strong style="color: red;font-style: italic;cursor: hand">task-25-ns</strong> can only be accessed inside namespace <strong style="color: red;font-style: italic;cursor: hand">task-25-ns</strong>
+                    </p>
+                    
+                </div>
+                <div class="panel-body task-hint">
+                    <strong>解题思路</strong>
+                    <br/>
+                    <p>
+                      根据文档创建一个只限制 namespace 的 network policy 对象并且使用到 task-25-ns 这个 namespace 上即可  
+                    </p>
+
+                    <strong>文档查找</strong>
+                    <br/>
+                     我们需要查询文档关键字:<strong style="color: red;font-style: italic;cursor: hand">network policy</strong>
+                    <strong>在页面里跟着文档走即可(正确答案见 answers/answer-task-25.yaml)</strong>
+                    <br/>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                    <div class="panel-heading">提示控制</div>
+                    <div class="panel-body">
+                        <input class="btn_hide_hint" type="button" value="隐藏提示">
+                        <input class="btn_show_hint" type="button" value="显示提示">
+                    </div>
+            </div>
+    </body>
+</html>

@@ -1,0 +1,219 @@
+0
+kubectl logs task0-pod-log | grep -i "file not found" > /opt/answers/task0-error-log.txt
+
+1
+kubectl get pv --sort-by="spec.capacity.storage" > /opt/answers/task01-pvlist.txt
+
+2
+kubectl delete -f /opt/templates/task2-pod-need-fix.yaml
+vi /opt/templates/task2-pod-need-fix.yaml
+仿照answer-task2-pod.yaml 添加 initContainers
+kubectl apply -f /opt/templates/task2-pod-need-fix.yaml
+
+3
+vi secret.yaml (官网找一个)
+kubectl apply -f secret.yaml
+vi answer-task3-3.yaml
+kubectl apply -f answer-task3-3.yaml
+vi answer-task3-4.yaml
+kubectl apply -f answer-task3-4.yaml
+
+4
+vi answer-task4-2.yaml
+mkdir /tmp/task4temp
+kubectl apply -f answer-task4-2.yaml
+
+5
+kubectl describe node [node_name]
+kubectl describe node | grep Taints | grep -v NoSchedule | wc -l
+vi /opt/answers
+
+6
+kubectl set image deployment/task-6-deploy nginx=nginx:1.9.0 --record
+kubectl rollout history deploy task-6-deploy
+kubectl rollout undo deployment task-6-deploy --to-revision=1
+
+7
+vi answer-task7-daemonset.yaml
+kubectl apply -f answer-task7-daemonset.yaml
+
+8
+vi answer-task8-service.yaml
+kubectl apply -f answer-task8-service.yaml
+
+9
+kubectl top pod -n kube-system -l mesureable=true --sort-by='cpu'
+vi /opt/answers/task9_answer.txt
+
+10
+vi answer-task10-pod.yaml
+kubectl apply -f answer-task10-pod.yaml
+
+11
+vi answer-task11-pod.yaml （和 containers 同级添加 nodeName: k8smaster）
+kubectl apply -f answer-task11-pod.yaml
+
+12
+vi task12-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task12-deployment 
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: task12-service
+spec:
+  type: NodePort
+  selector:
+    app: nginx
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30007
+kubectl get pod -A -o wide (获取pod的ip，比如172.19.30.86)
+kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm
+nslookup task12-service.default.svc.cluster.local
+nslookup nslookup 172-19-30-86.kube-system.pod.cluster.local
+exit
+vi /opt/answers/task12_answers_service_dns.txt
+vi /opt/answers/task12_answers_pod_dns.txt
+
+13
+kubectl create ns task13-namespace
+vi test13.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task13-pod
+  namespace: task13-namespace
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+
+kubectl apply -f test13.yaml
+
+14
+ps -ef |grep kubelet
+cat /var/lib/kubelet/config.yaml |grep static
+在/etc/kubernetes/manifests写一个yaml
+
+15
+kubectl taint nodes k8smaster myns=ns:NoSchedule
+kubectl get pod -o wide
+kubectl taint nodes k8smaster myne=ne:NoExecute
+kubectl get pod -o wide
+
+16
+export ETCDCTL_API=3
+etcdctl --endpoints=127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key snapshot save /opt/answers/task16_db_backup
+
+17
+systemctl status kubelet
+kubectl get pod -A
+ps -ef |grep kubelet
+vi /var/lib/kubelet/config.yaml
+配置 staticPodPath: /etc/kubernetes/manifests
+systemctl daemon-reload
+systemctl restart kubelet
+find / -name kube-apiserver.yaml 将文件移到 /etc/kubernetes/manifests
+
+18
+kubectl get svc task18-service -o yaml |grep -i selector -A 5
+kubectl get pod -l app=aaa
+vi /opt/answers/task18_pods_name
+
+19
+kubectl scale task-6-deploy --replicas=4
+
+20
+该题已过时，现在考试一般都不会用systemd管理kube-controller-manager
+
+21
+vi answer-task21.yaml
+kubectl apply -f answer-task21.yaml
+
+22
+vi clusterRole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" 被忽略，因为 ClusterRoles 不受名字空间限制
+  name: secret-reader
+rules:
+- apiGroups: [""]
+  # 在 HTTP 层面，用来访问 Secret 对象的资源的名称为 "secrets"
+  resources: ["secrets"]
+  verbs: ["watch", "list"]
+
+kubectl apply -f clusterRole.yaml
+
+23
+yum install -y kubeadm-1.21.8-0 --disableexcludes=kubernetes
+kubeadm upgrade plan
+kubeadm upgrade apply v1.21.8
+
+到这里 k8s server 就升级好了
+
+kubectl version
+yum install -y kubelet-1.21.8-0 kubectl-1.21.8-0 --disableexcludes=kubernetes
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+kubectl version
+
+24
+kubectl edit pvc task-24-pvc
+
+25
+kubectl apply -f answer-task-25.yaml
+
+
+
+
+
+自动补全命令的技巧：
+yum install bash-completion
+source <(kubectl completion bash)
+
+如何清空一个节点 https://kubernetes.io/zh/docs/tasks/administer-cluster/safely-drain-node/
+
+其它参考：https://www.cnblogs.com/ymei/p/13692126.html
+
+
+
+
+
+
+
+
+
+
+
+
+

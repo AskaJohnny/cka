@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task2-pod-pending
+spec:
+  containers:
+  - name: task2-pod-pending-nginx
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    command: [ "/bin/sh", "-c", "if [ ! -f /workingdir/iwantu.txt ]; then echo 'file not found'; else while :; do echo 'yes. u did it' ; sleep 3; done;fi" ]
+    volumeMounts:
+    - mountPath: /workingdir
+      name: workingdir
+  initContainers:
+  - name: init-myservice
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    command: ['sh', '-c', 'touch /workingdir/iwantu.txt']
+    volumeMounts:
+    - mountPath: /workingdir
+      name: workingdir
+  volumes:
+    - name: workingdir
+      hostPath:
+        path: /tmp/workingdir
+        type: Directory

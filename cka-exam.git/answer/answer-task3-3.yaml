@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task3-pod-sec-volume
+spec:
+  containers:
+  - name: pod-sec-volume
+    image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: vol
+      mountPath: "/etc/mySecretsFolder"
+      readOnly: true
+  volumes:
+  - name: vol
+    secret:
+      secretName: mysecret
